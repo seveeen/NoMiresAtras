@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 public class SpriteSetter : MonoBehaviour {
     public Sprite[] muros = new Sprite[8];
     public Sprite[] suelos = new Sprite[8];
-    public Sprite[] enemigo = new Sprite[2];
+    public Sprite[] enemigos = new Sprite[2];
 
 
     void setSprite(GameObject casilla) {
@@ -26,11 +26,11 @@ public class SpriteSetter : MonoBehaviour {
     }
 
     private Sprite getRandomSpriteEnemigo() {
-        throw new NotImplementedException();
+        return enemigos[Random.Range(0, muros.Length - 1)];
     }
 
     private Sprite getRandomSpriteSuelo() {
-        throw new NotImplementedException();
+        return suelos[Random.Range(0, muros.Length - 1)];
     }
 
     private Sprite getRandomSpriteMuro() {
