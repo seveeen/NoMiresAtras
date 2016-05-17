@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;	//Allows us to use UI.
+using UnityEngine.UI;   //Allows us to use UI.
+using System;
 
 namespace Completed {
     //Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
@@ -42,11 +43,19 @@ namespace Completed {
 
 
         private void Update() {
-            movimientoHorizontal = (int)(Input.GetAxisRaw("Horizontal"));
-            movimientoVertical = (int)(Input.GetAxisRaw("Vertical"));
+            InputHandler();
         }
 
+        private void InputHandler() {
+            movimientoHorizontal = (int)(Input.GetAxisRaw("Horizontal"));
+            movimientoVertical = (int)(Input.GetAxisRaw("Vertical"));
 
+        }
+
+        public void atacar() {
+            animator.SetTrigger("JugadorAtaque");
+            //TODO checkear casillas para hacer daño
+        }
         public void perderVida(int numero) {
             //Cambiar la animacion del jugador a la de cuando le atacan.
             animator.SetTrigger("JugadorAtacado");
