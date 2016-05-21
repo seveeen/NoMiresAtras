@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Completed;
 
 public class JuegoManager : MonoBehaviour {
     public static JuegoManager instance = null;
     public Nivel NivelController;
-    internal int vidaJugador;
-    private Salida salida;
     private int enemigosMuertosNivel = 0;
+    public static int Nivel = 1;
 
     void Awake() {
         //Comprobar si este script esta ya iniciado para no tener 2 instancias del mismo
@@ -19,14 +19,15 @@ public class JuegoManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         //Asignar el controlador de nivel para controlarlo desde aqui
-        NivelController = GetComponent<Nivel>();
+        NivelController = GetComponentInChildren<Nivel>();
 
         //Llamar al metodo que que empieza el nivel
         empezarPartida();
     }
 
     private void empezarPartida() {
-        throw new NotImplementedException();
+        NivelController.empezarNivel(enemigosMuertosNivel, this);
+        enemigosMuertosNivel = 0;
     }
 
     // Use this for initialization
@@ -41,5 +42,11 @@ public class JuegoManager : MonoBehaviour {
 
     internal static void acabarPartida() {
         throw new NotImplementedException();
+    }
+
+    public void avanzarNivel(int enemigosMuertos) {
+        this.enemigosMuertosNivel = enemigosMuertos;
+        Nivel++;
+        empezarPartida();
     }
 }

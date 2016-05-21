@@ -8,7 +8,7 @@ public class SpriteSetter : MonoBehaviour {
     public Sprite[] enemigos = new Sprite[2];
 
 
-    void setSprite(GameObject casilla) {
+    internal void setSprite(GameObject casilla) {
         switch(casilla.tag) {
             case "Muro":
                 casilla.GetComponent<SpriteRenderer>().sprite = getRandomSpriteMuro();
@@ -26,14 +26,14 @@ public class SpriteSetter : MonoBehaviour {
     }
 
     private Sprite getRandomSpriteEnemigo() {
-        return enemigos[Random.Range(0, muros.Length - 1)];
+        return enemigos[Random.Range(0, enemigos.Length - 1)];
     }
 
     private Sprite getRandomSpriteSuelo() {
-        return suelos[Random.Range(0, muros.Length - 1)];
+        return suelos[Random.Range(0, suelos.Length - 1)];
     }
 
     private Sprite getRandomSpriteMuro() {
-        return muros[Random.Range(0,muros.Length - 1)];
+        return muros[Random.Range(0, muros.Length - 1)];
     }
 }
