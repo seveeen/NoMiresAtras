@@ -27,6 +27,11 @@ public class JuegoManager : MonoBehaviour {
 
     private void empezarPartida() {
         NivelController.empezarNivel(enemigosMuertosNivel, this);
+        NivelController.player.SetActive(true);
+        enemigosMuertosNivel = 0;
+    }
+    private void empezarPartida(GameObject player) {
+        NivelController.empezarNivel(enemigosMuertosNivel, player);
         enemigosMuertosNivel = 0;
     }
 
@@ -44,9 +49,9 @@ public class JuegoManager : MonoBehaviour {
         throw new NotImplementedException();
     }
 
-    public void avanzarNivel(int enemigosMuertos) {
+    public void avanzarNivel(int enemigosMuertos, GameObject player) {
         this.enemigosMuertosNivel = enemigosMuertos;
         Nivel++;
-        empezarPartida();
+        empezarPartida(player);
     }
 }

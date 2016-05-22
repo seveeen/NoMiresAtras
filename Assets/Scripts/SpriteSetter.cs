@@ -8,7 +8,8 @@ public class SpriteSetter : MonoBehaviour {
     public Sprite[] enemigos = new Sprite[2];
 
 
-    internal void setSprite(GameObject casilla) {
+    internal Vector2 setSprite(GameObject casilla) {
+        Vector2 bounds;
         switch(casilla.tag) {
             case "Muro":
                 casilla.GetComponent<SpriteRenderer>().sprite = getRandomSpriteMuro();
@@ -23,6 +24,8 @@ public class SpriteSetter : MonoBehaviour {
                 casilla.GetComponent<SpriteRenderer>().sprite = (Sprite)Resources.Load("Sprites/error.png");
                 break;
         }
+        bounds = casilla.GetComponent<SpriteRenderer>().bounds.size;
+        return bounds;
     }
 
     private Sprite getRandomSpriteEnemigo() {
