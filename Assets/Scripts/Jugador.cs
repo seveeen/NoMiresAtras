@@ -21,38 +21,60 @@ namespace Completed {
         private int vida;
 
         private int vidaPorCura = 1;
-        private int movimientoHorizontal;
-        private int movimientoVertical;
-
+        private float movimientoHorizontal;
+        private float movimientoVertical;
+        private Vector3 movimientoFinal;
+        private float velocidad = 1;
+        private Nivel nivel;
         void Start() {
             //Guardar referencia al animador para usar las animaciones del jugador
             animator = GetComponent<Animator>();
-
+            nivel = GetComponentInParent<Nivel>();
             //Recoger el numero de vidas desde el JuegoManager
             vida = 3;
 
             //Mostrar el numero de vidas en el HUD
-            textoVida.text = "Vidas: " + vida;
+            //textoVida.text = "Vidas: " + vida;
 
         }
-
-        //Este metodo se usa cuando la instancia de esta clase se desabilita o se destruye. Por ejemplo en los cambios de nivel
 
 
 
         private void Update() {
             InputHandler();
+            SpriteFlip();
+        }
+
+        private void SpriteFlip() {
+            if(movimientoHorizontal < 0)
+                gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            else if(movimientoHorizontal > 0)
+                gameObject.GetComponent<SpriteRenderer>().flipX = false;
         }
 
         private void InputHandler() {
-            movimientoHorizontal = (int)(Input.GetAxisRaw("Horizontal"));
-            movimientoVertical = (int)(Input.GetAxisRaw("Vertical"));
-
+            if(Input.GetKeyDown(KeyCode.Escape)) {
+                FindObjectOfType<Canvas>().enabled = true;
+            }
+            movimientoHorizontal = (Input.GetAxis("Horizontal") * velocidad) * Time.deltaTime;
+            movimientoVertical = (Input.GetAxis("Vertical") * velocidad) * Time.deltaTime;
+            movimientoFinal = new Vector3(movimientoHorizontal, movimientoVertical, 0f);
+            transform.position += movimientoFinal;
+            if(Input.GetKeyDown(KeyCode.Space)) {
+                atacar();
+            }
         }
 
         public void atacar() {
             animator.SetTrigger("Atacando");
-            //TODO checkear casillas para hacer daño
+            Bounds ataquebounds = GetComponent<BoxCollider2D>().bounds;
+            ataquebounds.size *= 3f;
+            foreach(GameObject enemigo in nivel.getEnemigos()) {
+                if(ataquebounds.Intersects(enemigo.GetComponent<BoxCollider2D>().bounds)) {
+                    enemigo.GetComponent<Enemigo>().recibirAtaque(this.ataque);
+                }
+            }
+            ataquebounds = new Bounds();
         }
         public void perderVida(int numero) {
             //Cambiar la animacion del jugador a la de cuando le atacan.
